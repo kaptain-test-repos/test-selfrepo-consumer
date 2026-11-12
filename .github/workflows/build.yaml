@@ -39,3 +39,14 @@ jobs:
         env:
           GUARD_OUTCOME: ${{ steps.guarded.outcome }}
         run: echo "GUARD direct-use outcome=${GUARD_OUTCOME}"
+
+  # How real consumers pin: by tag. The real repo's tags are annotated.
+  via-reusable-tag-annotated:
+    uses: kaptain-test-repos/test-selfrepo-library/.github/workflows/reusable.yaml@t-annot
+    permissions:
+      contents: read
+
+  via-reusable-tag-lightweight:
+    uses: kaptain-test-repos/test-selfrepo-library/.github/workflows/reusable.yaml@t-light
+    permissions:
+      contents: read
