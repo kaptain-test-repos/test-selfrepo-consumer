@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Decoy at the same path as the library's script. If a run ever prints this,
+# the self-repository syntax resolved to the consumer, not the library.
+set -euo pipefail
+
+echo "PROBE marker=DECOY origin=consumer caller=${1:-none}"

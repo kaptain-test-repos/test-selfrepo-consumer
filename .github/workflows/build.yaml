@@ -1,0 +1,31 @@
+name: Consumer
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+permissions: {}
+jobs:
+  # The real shape: a consumer calling the library's reusable workflow at a pin.
+  via-reusable-pinned:
+    uses: kaptain-test-repos/test-selfrepo-library/.github/workflows/reusable.yaml@b2134ec4c9d93a2ced68283cccae01232baca9e5
+    permissions:
+      contents: read
+
+  # Same call following the library's main branch, to compare against the pin.
+  via-reusable-main:
+    uses: kaptain-test-repos/test-selfrepo-library/.github/workflows/reusable.yaml@main
+    permissions:
+      contents: read
+
+  # The case a guard would reject: the actions used directly, not through a
+  # sibling workflow.
+  direct-action:
+    name: Direct action use
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Probe used directly
+        uses: kaptain-test-repos/test-selfrepo-library/src/actions/probe@b2134ec4c9d93a2ced68283cccae01232baca9e5
+      - name: Job context used directly
+        uses: kaptain-test-repos/test-selfrepo-library/src/actions/probe-job-context@b2134ec4c9d93a2ced68283cccae01232baca9e5

@@ -1,0 +1,11 @@
+name: Decoy Probe
+description: Decoy at the same path as the library's action. Must never run.
+
+runs:
+  using: composite
+  steps:
+    - name: Decoy
+      shell: bash
+      run: |
+        echo "PROBE marker=DECOY origin=consumer action"
+        exit 1
