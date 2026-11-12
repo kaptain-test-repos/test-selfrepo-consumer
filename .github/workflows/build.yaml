@@ -6,6 +6,7 @@ on:
 permissions: {}
 jobs:
   # The real shape: a consumer calling the library's reusable workflow at a pin.
+  # Stays on the alpha commit while the library's main has moved to beta.
   via-reusable-pinned:
     uses: kaptain-test-repos/test-selfrepo-library/.github/workflows/reusable.yaml@b2134ec4c9d93a2ced68283cccae01232baca9e5
     permissions:
@@ -29,3 +30,12 @@ jobs:
         uses: kaptain-test-repos/test-selfrepo-library/src/actions/probe@b2134ec4c9d93a2ced68283cccae01232baca9e5
       - name: Job context used directly
         uses: kaptain-test-repos/test-selfrepo-library/src/actions/probe-job-context@b2134ec4c9d93a2ced68283cccae01232baca9e5
+      - name: Guarded action used directly (expected to be refused)
+        id: guarded
+        continue-on-error: true
+        uses: kaptain-test-repos/test-selfrepo-library/src/actions/guarded@bb9c4e53e800544a922db3c6aaa49d31a190a5c7
+      - name: Report what the guard did
+        shell: bash
+        env:
+          GUARD_OUTCOME: ${{ steps.guarded.outcome }}
+        run: echo "GUARD direct-use outcome=${GUARD_OUTCOME}"
